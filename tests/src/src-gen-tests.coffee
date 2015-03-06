@@ -5,7 +5,6 @@ path    = require('path')
 
 describe 'sgen tests =>', ->
 
-
   contains = (root, file, content) ->
     f = path.resolve(root, file)
     c = fs.readFileSync(f, { encoding: 'utf8' }).toString()
@@ -73,3 +72,10 @@ describe 'sgen tests =>', ->
         "readme.md"
         "travis.yml"
       )
+
+    it.skip 'should have interpolated the project name into package.json', ->
+    it.skip 'should have produced the .git folder after running git init', ->
+    it.skip 'should package.json prod dependencies: coffee-script lodash nject and moment', ->
+    it.skip 'should have package.json dev dependencies: mocha chai and gulp', ->
+    it.skip 'the entry point should have been made executable', ->
+    it.skip 'all tests on the newly minted project should have passed', ->
