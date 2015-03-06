@@ -1,0 +1,3 @@
+Base library used to create a sgen template.  This lib holds functions
+for createing a manipluating Node Object streams based on the ideas
+started by Gulp.  It can be thought of as a Gulp Code Generator.

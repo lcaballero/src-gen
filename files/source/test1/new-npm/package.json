@@ -1,0 +1,16 @@
+{
+  "name": "whatThe",
+  "version": "0.0.1",
+  "description": "Testing package",
+  "author": "Tester Chesterton",
+  "main": "index.js",
+  "keywords": [
+    "one",
+    "two",
+    "three"
+  ],
+  "license": "EPL",
+  "scripts": {
+    "test": "test test test"
+  }
+}

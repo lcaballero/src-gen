@@ -1,9 +1,9 @@
 {
-  "name": "stream-gen",
+  "name": "src-gen",
   "version": "0.0.1",
   "description": "Base library used to create code generation packages.",
   "author": "lucas.caballero",
-  "main": "lib/index.js",
+  "main": "index.js",
   "keywords": [
     "code",
     "generation",
@@ -11,11 +11,12 @@
     "gulp"
   ],
   "license": "Eclipse Public License (EPL)",
-  "repository": "https://github.com/lcaballero/spray-paint.git",
+  "repository": "https://github.com/lcaballero/src-gen.git",
   "scripts": {
     "test": "mocha --require tests/lib/globals.coffee --reporter list --compilers coffee:coffee-script/register tests/src"
   },
   "dependencies": {
+    "async": "^0.9.0",
     "coffee-script": "^1.9.0",
     "gulp": "^3.8.10",
     "gulp-file": "^0.2.0",

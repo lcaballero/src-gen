@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/lcaballero/src-gen.svg?branch=master)](https://travis-ci.org/) [![NPM version](https://badge.fury.io/js/src-gen.svg)](http://badge.fury.io/js/src-gen)
+[![Build Status](https://travis-ci.org/lcaballero/<%= name %>.svg?branch=master)](https://travis-ci.org/) [![NPM version](https://badge.fury.io/js/<%= name %>.svg)](http://badge.fury.io/js/<%= name %>)
 
 # Introduction
 

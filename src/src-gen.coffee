@@ -5,17 +5,30 @@ _           = require 'lodash'
 { spawn }   = require 'child_process'
 merge       = require 'merge2'
 insertFile  = require 'gulp-file'
+async       = require 'async'
 
 
+###
+  Sgen can be initialized with the following options:
+
+  {
+    $isTesting  : true | false
+    source      : the source directory from which the code will
+                  be copied
+    target      : the dest directory where files will be placed
+                  once processed.
+  }
+###
 module.exports = (opts) ->
 
-  opts = _.defaults({}, { $isTesting: true }, opts)
+  opts = _.defaults({}, { $isTesting: false }, opts)
 
   ###
-    rename(), once configured with input parameters that provide
-    the source directory and any model data creates a function
-    that will creates a stream using the single input file and
-    outputs that file with a new name given by the second parameter.
+    rename(), once this function is configured with input parameters
+    that provide the source directory and any model data, it creates
+    a function capable of renaming files in a stream using the single
+    input file and outputs that file with a new name given by the
+    second parameter.
 
     @a {String} - Starting file name.
     @b {String} - New name of file.
@@ -71,6 +84,31 @@ module.exports = (opts) ->
         )
 
   ###
+    Runs a number of shell commands expecting to be provided a
+    callback that will fire with an error if one is encountered while
+    running the shell commands.
+
+    Example input that might as the last phase of creating a new npm:
+      run(
+        'npm install coffee-script lodash nject moment --save'
+        'npm install mocha chai gulp --save-dev'
+        'git init'
+        "chmod +x #{opts.entryPoint}"
+        'npm test'
+      )(done)
+
+    Signature: (commands...) -> (done) ->
+
+    Which is to say that run returns a function expecting the typical
+    node callback receiving with done(err)
+  ###
+  run =
+    if opts.$isTesting
+      (cmds) -> (done) -> done()
+    else
+      execs(opts)
+
+  ###
     Generates a minimal object that represents a package.json file.
   ###
   packageFile = (inputs) ->
@@ -102,14 +140,22 @@ module.exports = (opts) ->
     provided as part of the options.
   ###
   target = -> gulp.dest opts.target
+
+  ###
+    Utility function for outputting JSON.
+  ###
   toJson = (a) -> JSON.stringify(a, null, '  ')
-  to     = rename(opts, source)
-  run    =
-    if opts.$isTesting
-      (cmds) -> (done) -> done()
-    else
-      execs(opts)
-  copy   = (src...) ->
+
+  ###
+    Renames a file from a -> b.  Using the options of the initialization
+    options as the Model.
+  ###
+  to = rename(opts, source)
+
+  ###
+    @src... A list of files to copy verbatim to the target directory.
+  ###
+  copy = (src...) ->
     for m in src
       gulp.src(m, source())
 
@@ -131,7 +177,5 @@ module.exports = (opts) ->
       .on('close', (err, res) -> console.log('close', err, res))
 
   {
-    file, gen, copy, source,
-    target, toJson, to, packageFile,
-    execs, run
+    file, gen, copy, source, target, toJson, to, packageFile, execs, run
   }
