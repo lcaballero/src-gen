@@ -6,6 +6,7 @@ _           = require 'lodash'
 merge       = require 'merge2'
 insertFile  = require 'gulp-file'
 async       = require 'async'
+plumber     = require 'gulp-plumber'
 
 
 ###
@@ -13,8 +14,10 @@ async       = require 'async'
 
   {
     $isTesting  : true | false
+
     source      : the source directory from which the code will
                   be copied
+
     target      : the dest directory where files will be placed
                   once processed.
   }
@@ -124,7 +127,7 @@ module.exports = (opts) ->
       else
         []
     license     : inputs.license or "Eclipse Public License (EPL)"
-    repository  : inputs.repo
+    repository  : inputs.repository
     scripts     :
       test: inputs.testCommand or ""
 
@@ -172,6 +175,7 @@ module.exports = (opts) ->
   gen = (streams...) ->
     streams.push({ end: true })
     merge(streams...)
+      .pipe(plumber())
       .pipe(target())
       .on('error', (err, res) -> console.log('error', err, res))
       .on('close', (err, res) -> console.log('close', err, res))
